@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Rooms</h1>       
+            <table border=".5">
+            <tr>
+                <th>Room NO</th>
+                <th>Customer ID</th>
+                <th>Room Type</th>
+                <th>Price</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+              </tr>
+            {% for r in rooms %}
+            <tr>
+                <td>{{ r.room_no }}</td>
+                <td>{{ r.customer_id }}</td>
+                <td>{{ r.room_type }}</td>
+                <td>${{ r.price }}</td>
+                <td>{{ r.check_in }}</td>
+                <td>{{ r.check_out }}</td>
+            </tr>
+            {% endfor %} 
+        </table>  
+    </body>
+</html>
