@@ -1,28 +1,25 @@
-<!DOCTYPE html>
-<html>
-    <body>
-        <h1>Customers</h1>       
-        {% for c in customers %}
-            <p>{{ c.firstname }} {{ c.lastname }} Phone: {{ c.phone }}</p>
-            <table border=".5">
-            <tr>
-                <th>Room NO</th>
-                <th>Room Type</th>
-                <th>Price</th>
-                <th>Check In</th>
-                <th>Check Out</th>
-              </tr>
-            {% for r in c.rooms %}
-            <tr>
-                <td>{{ r.room_no }}</td>
-                <td>{{ r.room_type }}</td>
-                <td>${{ r.price }}</td>
-                <td>{{ r.check_in }}</td>
-                <td>{{ r.check_out }}</td>
-            </tr>
-            {% endfor %} 
-        </table>
-        {% endfor %}
-        
-    </body>
-</html>
+{% extends 'header.html' %}
+{% block content %}
+<h1>Customers</h1>       
+{% for c in customers %}
+<p>{{ c.firstname }} {{ c.lastname }} Phone: {{ c.phone }}</p>
+<table border=".5">
+    <tr>
+        <th>Room NO</th>
+        <th>Room Type</th>
+        <th>Price</th>
+        <th>Check In</th>
+        <th>Check Out</th>
+        </tr>
+    {% for r in c.rooms %}
+    <tr>
+        <td>{{ r.room_no }}</td>
+        <td>{{ r.room_type }}</td>
+        <td>${{ r.price }}</td>
+        <td>{{ r.check_in }}</td>
+        <td>{{ r.check_out }}</td>
+    </tr>
+    {% endfor %} 
+</table>
+{% endfor %}
+{% endblock %}

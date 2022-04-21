@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hotel.apps.HotelConfig',
+    'crispy_forms',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [

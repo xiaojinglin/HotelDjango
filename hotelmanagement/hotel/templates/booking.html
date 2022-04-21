@@ -1,29 +1,32 @@
-<!DOCTYPE html>
-<html>
-    <body>
-        <form action="" method="post">
-            <label>First Name: </label>
-            <input name="firstname"><br><br>
-            <label>Last Name: </label>
-            <input name="lastname"><br><br>
-            <label>Phone NO: </label>
-            <input name="phone"><br><br>
-            <label>Room: </label><select name="room">
-                {% for r in rooms %}
-                <option value="{{ r.room_no }}">{{ r.room_no }}</option>
-                {% endfor %}
-            </select><br><br>
-            <label name="check_in">Check In: </label>
-            <input id="check_in" type="date" name="check_in" value='{{min_in}}' min="{{min_in}}" max="{{max_in}}">
-            <label name="check_out">Check Out: </label>
-            <input id="check_out" type="date" name="check_out" onclick="getMin()"><br><br>
-            <script>
-                function getMin(){
-                    document.getElementById('check_out').value=document.getElementById('check_in').value
-                    document.getElementById('check_out').setAttribute('min',document.getElementById('check_in').value)
-            }
-            </script>
-            <input type="submit" value="Submit">
-        </form>
-    </body>
-</html>
+{% extends 'header.html' %}
+{% load bootstrap3 %}
+{% bootstrap_messages %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <h2>Booking</h2>
+            <form action="" method="post">
+                {%csrf_token %}
+                {% bootstrap_form form %}
+                <label>Room: </label><select name="room">
+                    {% for r in rooms %}
+                    <option value="{{ r.room_no }}">{{ r.room_no }}</option>
+                    {% endfor %}
+                </select><br><br>
+                <label name="check_in">Check In: </label>
+                <input id="check_in" type="date" name="check_in" value='{{min_in}}' min="{{min_in}}" max="{{max_in}}"><br><br>
+                <label name="check_out">Check Out: </label>
+                <input id="check_out" type="date" name="check_out" onclick="getMin()" required><br><br>
+                <script>
+                    function getMin(){
+                        document.getElementById('check_out').value=document.getElementById('check_in').value
+                        document.getElementById('check_out').setAttribute('min',document.getElementById('check_in').value)
+                        }
+                </script>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
