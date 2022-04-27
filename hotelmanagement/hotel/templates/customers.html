@@ -2,7 +2,7 @@
 {% block content %}
 <h1>Customers</h1>       
 {% for c in customers %}
-<p>{{ c.firstname }} {{ c.lastname }} Phone: {{ c.phone }}</p>
+<p>{{ c.id }} {{ c.firstname }} {{ c.lastname }} Phone: {{ c.phone }}<a href="updatecustomer/{{ c.id }}">Update</a><a href="deletecustomer/{{ c.id }}">Delete</a></p>
 <table border=".5">
     <tr>
         <th>Room NO</th>
@@ -18,8 +18,15 @@
         <td>${{ r.price }}</td>
         <td>{{ r.check_in }}</td>
         <td>{{ r.check_out }}</td>
+        <td>
+            <a href="updatecustomerroom/{{ r.id }}">Update</a>
+        </td>
+        <td>
+            <a href="deletecustomerroom/{{ r.id }}">Delete</a>
+        </td>
     </tr>
     {% endfor %} 
 </table>
+<br>
 {% endfor %}
 {% endblock %}

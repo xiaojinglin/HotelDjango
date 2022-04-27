@@ -25,12 +25,10 @@ def booking(request):
             firstname = request.POST['firstname']
             lastname = request.POST['lastname']
             phone = request.POST['phone']
-            customer = Customers.objects.get(firstname=firstname,
+            customer,created = Customers.objects.get_or_create(firstname=firstname,
                                                 lastname=lastname,
                                                 phone=phone)
-            if not customer:
-                customer = Customers(firstname=firstname,lastname=lastname,phone=phone)
-                customer.save()
+            customer.save()
             customer_id = customer.id
             room_no = request.POST['room']
             room = Rooms.objects.get(room_no=room_no)
@@ -48,27 +46,40 @@ def booking(request):
         return HttpResponse(template.render(context,request))
 
 
-def addcustomer(request):
-    if request.method == 'POST':
-        form = CustomerForm(request.POST)
-        if form.is_valid():
-            firstname = request.POST['firstname']
-            lastname = request.POST['lastname']
-            phone = request.POST['phone']
-            customer = Customers(firstname=firstname,lastname=lastname,phone=phone)
-            customer.save()
-            customer_id = customer.id
-            room_no = request.POST['room']
-            room = Rooms.objects.get(room_no=room_no)
-            room.customer_id = customer_id
-            room.check_in = request.POST['check_in']
-            room.check_out = request.POST['check_out']
-            room.save()
-            return HttpResponseRedirect(reverse('customers'))
-        else:
-            return render(request, "booking.html", {'form':form})
-    else:
-        return render(request,'booking.html')
+def updatecustomer(request,id):
+    template = loader.get_template('updatecustomer.html')
+    customer = Customers.objects.get(id=id)
+    rooms = Rooms.objects.filter(customer_id=id)
+    context = {
+        'customer':customer,
+        'rooms':rooms,
+        'min_in': datetime.today().strftime('%Y-%m-%d'),
+        'max_in': (datetime.today() + timedelta(days=90)).strftime('%Y-%m-%d'),
+    }
+    return HttpResponse(template.render(context,request))
+
+
+def updatecustomerrecord(request, id):
+  first = request.POST['firstname']
+  last = request.POST['lastname']
+  phone = request.POST['phone']
+  customer = Customers.objects.get(id=id)
+  customer.firstname = first
+  customer.lastname = last
+  customer.phone = phone
+  customer.save()
+  return HttpResponseRedirect(reverse('customers'))
+
+
+def deletecustomer(request, id):
+    customer = Customers.objects.get(id=id)
+    for room in Rooms.objects.filter(customer_id=id):
+        room.customer_id = None
+        room.check_in = None
+        room.check_out = None
+        room.save()
+    customer.delete()
+    return HttpResponseRedirect(reverse('customers'))
 
 
 def customers(request):

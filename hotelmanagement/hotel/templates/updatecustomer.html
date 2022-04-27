@@ -1,0 +1,21 @@
+{% extends 'header.html' %}
+{% load bootstrap3 %}
+{% bootstrap_messages %}
+{% block content %}
+<h1>Update Customer</h1>
+
+<form action="updatecustomerrecord/{{ customer.id }}" method="post">
+{% csrf_token %}
+First Name:<br>
+<input name="firstname" value="{{ customer.firstname }}">
+<br><br>
+Last Name:<br>
+<input name="lastname" value="{{ customer.lastname }}">
+<br><br>
+Phone:<br>
+<input name="phone" value="{{ customer.phone }}">
+<br><br>
+
+<input type="submit" value="Submit">
+</form>
+{% endblock %}
